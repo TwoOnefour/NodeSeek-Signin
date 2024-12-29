@@ -53,11 +53,12 @@ def load_send():
 load_send()
 
 if COOKIE_ENV:
+    cf = CF_Solver("https://www.nodeseek.com")
     url = f"https://www.nodeseek.com/api/attendance?random={NS_RANDOM}"
     headers = {
         'User-Agent': cf.userAgent,
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Cookie': f'{COOKIE_ENV};cf_clearance={CF_Solver("https://www.nodeseek.com").cookie()}'
+        'Cookie': f'{COOKIE_ENV};cf_clearance={cf.cookie()}'
     }
 
     try:
