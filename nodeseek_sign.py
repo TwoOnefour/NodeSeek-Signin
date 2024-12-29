@@ -62,7 +62,7 @@ if COOKIE_ENV:
     try:
         # response = requests.post(url, headers=headers)
         cf = CF_Solver("https://www.nodeseek.com", headers=headers)
-        response = cf.client.post(url)
+        response = cf.client.post(url, headers=headers)
         response_data = response.json()
         print(response_data)
         print(COOKIE_ENV)
