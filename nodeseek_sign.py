@@ -56,12 +56,15 @@ if COOKIE_ENV:
     cf = CF_Solver("https://www.nodeseek.com/board")
     url = f"https://www.nodeseek.com/api/attendance?random={NS_RANDOM}"
     headers = {
-        'Cookie': f'{COOKIE_ENV}'
+        'Cookie': f'{COOKIE_ENV}',
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
     }
 
     try:
         # response = requests.post(url, headers=headers)
         cf = CF_Solver("https://www.nodeseek.com/board", headers=headers)
+        print(cf.cookie())
+        print(cf.userAgent)
         response = cf.client.post(url)
         response_data = response.json()
         print(response_data)
