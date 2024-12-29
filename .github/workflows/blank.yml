@@ -22,8 +22,12 @@ jobs:
           python-version: '3.11.8'
 
       - name: install
-        run: pip install requests curl_cffi
+        run: pip install requests curl_cffi httpx==0.27.2 PyExecJS==1.5.1 javascript pycryptodome
 
+      - name: Clone repo
+        run: git clone https://github.com/LOBYXLYX/Cloudflare-Bypass |
+             mv Cloudflare-Bypass/* ./
+        
       - name: run
         env:
           COOKIE: ${{ secrets.COOKIE }}
