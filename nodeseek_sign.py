@@ -53,7 +53,6 @@ def load_send():
 load_send()
 
 if COOKIE_ENV:
-    cf = CF_Solver("https://www.nodeseek.com/board")
     url = f"https://www.nodeseek.com/api/attendance?random={NS_RANDOM}"
     headers = {
         'Cookie': f'{COOKIE_ENV}',
