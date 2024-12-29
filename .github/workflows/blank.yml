@@ -25,7 +25,8 @@ jobs:
         run: pip install requests curl_cffi httpx==0.27.2 PyExecJS==1.5.1 javascript pycryptodome
 
       - name: Clone repo
-        run: git clone https://github.com/LOBYXLYX/Cloudflare-Bypass |
+        run: |
+             git clone https://github.com/LOBYXLYX/Cloudflare-Bypass
              mv Cloudflare-Bypass/* ./
         
       - name: run
