@@ -4,8 +4,6 @@ import sys
 from curl_cffi import requests
 from aqua import CF_Solver
 
-url = "https://www.nodeseek.com"
-cf = CF_Solver(url)
 
 NS_RANDOM = os.environ.get("NS_RANDOM","true")
 NS_COOKIE = os.environ.get("NS_COOKIE","")
@@ -59,7 +57,7 @@ if COOKIE_ENV:
     headers = {
         'User-Agent': cf.userAgent,
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
-        'Cookie': f'{COOKIE_ENV};cf_clearance={cf.cookie()}'
+        'Cookie': f'{COOKIE_ENV};cf_clearance={CF_Solver("https://www.nodeseek.com").cookie()}'
     }
 
     try:
