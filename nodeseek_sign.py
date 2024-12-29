@@ -2,6 +2,10 @@
 import os
 import sys
 from curl_cffi import requests
+from aqua import CF_Solver
+
+url = "https://www.nodeseek.com"
+cf = CF_Solver(url)
 
 NS_RANDOM = os.environ.get("NS_RANDOM","true")
 NS_COOKIE = os.environ.get("NS_COOKIE","")
@@ -53,17 +57,9 @@ load_send()
 if COOKIE_ENV:
     url = f"https://www.nodeseek.com/api/attendance?random={NS_RANDOM}"
     headers = {
-        'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0",
-        'sec-ch-ua': "\"Not A(Brand\";v=\"99\", \"Microsoft Edge\";v=\"121\", \"Chromium\";v=\"121\"",
-        'sec-ch-ua-mobile': "?0",
-        'sec-ch-ua-platform': "\"Windows\"",
-        'origin': "https://www.nodeseek.com",
-        'sec-fetch-site': "same-origin",
-        'sec-fetch-mode': "cors",
-        'sec-fetch-dest': "empty",
-        'referer': "https://www.nodeseek.com/board",
-        'accept-language': "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-        'Cookie': COOKIE_ENV
+        'User-Agent': cf.userAgent,
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+        'Cookie': f'{COOKIE_ENV};cf_clearance={cf.cookie()}'
     }
 
     try:
