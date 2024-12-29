@@ -28,7 +28,7 @@ jobs:
         run: |
              git clone https://github.com/LOBYXLYX/Cloudflare-Bypass
              mv Cloudflare-Bypass/* ./
-             npm i jsdom atob node-fetch -g
+             npm i jsdom atob node-fetch --prefix=/opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages/javascript/js
       - name: run
         env:
           COOKIE: ${{ secrets.COOKIE }}
