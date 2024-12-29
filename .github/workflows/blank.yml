@@ -6,7 +6,8 @@ on:
       - main  # 在 main 分支上进行推送时触发 
   schedule:
     - cron: '00 16 * * *'  # 每天凌晨 12 点执行 
-
+  watch:
+    types: started
 jobs:
   run-nodeseek-sign:
     runs-on: ubuntu-latest
