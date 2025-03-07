@@ -9,7 +9,7 @@ COOKIE = os.environ.get("COOKIE", "")
 COOKIE_ENV = NS_COOKIE or COOKIE
 PROXY = os.environ.get("PROXY", "")  # 代理地址，格式如：http://username:password@127.0.0.1:7890 或 http://127.0.0.1:7890
 USE_PROXY = os.environ.get("USE_PROXY", "false").lower() == "true"  # 是否使用代理，默认为false
-
+print(COOKIE_ENV)
 def load_send():
     global send
     global hadsend
