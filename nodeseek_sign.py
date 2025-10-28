@@ -60,6 +60,7 @@ def save_cookie_to_github_var(var_name: str, cookie: str):
 
     url_pubkey = f"https://api.github.com/repos/{repo}/actions/secrets/public-key"
     r = py_requests.get(url_pubkey, headers=headers)
+    
     if r.status_code != 200:
         print(f"获取公钥失败: {r.status_code}, {r.text}")
         return False
@@ -546,6 +547,7 @@ if __name__ == "__main__":
             print("所有Cookie已成功保存")
         except Exception as e:
             print(f"保存Cookie变量异常: {e}")
+
 
 
 
