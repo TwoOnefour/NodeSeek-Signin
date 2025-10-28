@@ -31,6 +31,8 @@ jobs:
       - name: 拉起本地docker
         run: |
           sudo docker run -itd   --name cloudflyer   -p 127.0.0.1:3000:3000   --restart unless-stopped   jackzzs/cloudflyer -K qaq123 -H 0.0.0.0
+          sleep 10s
+      
       - name: 运行签到脚本
         env:
           # 基本账号
