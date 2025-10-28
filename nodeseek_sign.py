@@ -71,7 +71,7 @@ def save_cookie_to_github_var(var_name: str, cookie: str):
     
     public_key = public.PublicKey(key_b64, encoder=encoding.Base64Encoder)
     sealed_box = public.SealedBox(public_key)
-    encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
+    encrypted = sealed_box.encrypt(cookie.encode("utf-8"))
 
     encrypted_b64 = base64.b64encode(encrypted).decode("utf-8")
 
@@ -547,6 +547,7 @@ if __name__ == "__main__":
             print("所有Cookie已成功保存")
         except Exception as e:
             print(f"保存Cookie变量异常: {e}")
+
 
 
 
