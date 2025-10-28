@@ -45,8 +45,8 @@ def detect_environment():
 # ---------------- GitHub 变量写入函数 ----------------
 def save_cookie_to_github_var(var_name: str, cookie: str):
     import requests as py_requests
-    token = os.environ.get("GH_PAT")
-    repo = os.environ.get("GITHUB_REPOSITORY")
+    token = os.environ.get("GITHUB_TOKEN") if os.environ.get("GITHUB_TOKEN") is not None else os.environ.get("GH_PAT")
+    repo = os.environ.get("REPO")
     if not token or not repo:
         print("GH_PAT 或 GITHUB_REPOSITORY 未设置，跳过GitHub变量更新")
         return False
@@ -533,3 +533,4 @@ if __name__ == "__main__":
             print("所有Cookie已成功保存")
         except Exception as e:
             print(f"保存Cookie变量异常: {e}")
+
