@@ -11,7 +11,7 @@ on:
 permissions:
   contents: read
   actions: write  # 添加写入Actions变量的权限
-
+  
 jobs:
   run-nodeseek-sign:
     runs-on: ubuntu-latest
@@ -56,7 +56,7 @@ jobs:
           CLIENTT_KEY: ${{ secrets.CLIENTT_KEY }}
           
           # GitHub API配置
-          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           
           # 通知推送配置
