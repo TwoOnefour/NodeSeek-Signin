@@ -56,7 +56,7 @@ jobs:
           CLIENTT_KEY: ${{ secrets.CLIENTT_KEY }}
           
           # GitHub API配置
-          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           
           # 通知推送配置
