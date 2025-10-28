@@ -73,7 +73,7 @@ def save_cookie_to_github_var(var_name: str, cookie: str):
     sealed_box = public.SealedBox(public_key)
     encrypted = sealed_box.encrypt(cookie.encode("utf-8"))
 
-    encrypted_b64 = base64.b64encode(encrypted).decode("utf-8")
+    encrypted_b64 = b64encode(encrypted).decode("utf-8")
 
     # 3) 写入/更新 Secret（PUT）
     url_put = f"https://api.github.com/repos/{repo}/actions/secrets/{var_name}"
