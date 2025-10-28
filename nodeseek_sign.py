@@ -7,6 +7,9 @@ from zoneinfo import ZoneInfo
 from curl_cffi import requests
 from yescaptcha import YesCaptchaSolver, YesCaptchaSolverError
 from turnstile_solver import TurnstileSolver, TurnstileSolverError
+from nacl import public, encoding
+from base64 import b64encode
+
 # ---------------- 通知模块动态加载 ----------------
 hadsend = False
 send = None
@@ -50,32 +53,42 @@ def save_cookie_to_github_var(var_name: str, cookie: str):
     if not token or not repo:
         print("GH_PAT 或 GITHUB_REPOSITORY 未设置，跳过GitHub变量更新")
         return False
-
     headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json"
     }
 
-    url_check = f"https://api.github.com/repos/{repo}/actions/variables/{var_name}"
-    url_create = f"https://api.github.com/repos/{repo}/actions/variables"
+    url_pubkey = f"https://api.github.com/repos/{repo}/actions/secrets/public-key"
+    r = py_requests.get(url_pubkey, headers=headers)
+    if r.status_code != 200:
+        print(f"获取公钥失败: {r.status_code}, {r.text}")
+        return False
 
-    data = {"name": var_name, "value": cookie}
+    j = r.json()
+    key_id = j["key_id"]
+    key_b64 = j["key"]  # base64 编码的公钥
+    
+    public_key = public.PublicKey(key_b64, encoder=encoding.Base64Encoder)
+    sealed_box = public.SealedBox(public_key)
+    encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
 
-    response = py_requests.patch(url_check, headers=headers, json=data)
-    if response.status_code == 204:
-        print(f"GitHub: {var_name} 更新成功")
+    encrypted_b64 = base64.b64encode(encrypted).decode("utf-8")
+
+    # 3) 写入/更新 Secret（PUT）
+    url_put = f"https://api.github.com/repos/{repo}/actions/secrets/{var_name}"
+    payload = {
+        "encrypted_value": encrypted_b64,
+        "key_id": key_id,
+    }
+    r2 = py_requests.put(url_put, headers=headers, json=payload)
+
+    # GitHub 对于创建返回 201，更新返回 204
+    if r2.status_code in (201, 204):
+        action = "创建" if r2.status_code == 201 else "更新"
+        print(f"GitHub Secret: {var_name} {action}成功")
         return True
-    elif response.status_code == 404:
-        print(f"GitHub: {var_name} 不存在，尝试创建...")
-        response = py_requests.post(url_create, headers=headers, json=data)
-        if response.status_code == 201:
-            print(f"GitHub: {var_name} 创建成功")
-            return True
-        else:
-            print(f"GitHub创建失败: {response.status_code}, {response.text}")
-            return False
     else:
-        print(f"GitHub设置失败: {response.status_code}, {response.text}")
+        print(f"GitHub Secret 写入失败: {r2.status_code}, {r2.text}")
         return False
 
 # ---------------- 青龙面板变量删除函数 ----------------
@@ -533,5 +546,6 @@ if __name__ == "__main__":
             print("所有Cookie已成功保存")
         except Exception as e:
             print(f"保存Cookie变量异常: {e}")
+
 
 
