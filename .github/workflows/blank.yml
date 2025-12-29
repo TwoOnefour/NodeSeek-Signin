@@ -70,9 +70,7 @@ jobs:
           TG_THREAD_ID: ${{ secrets.TG_THREAD_ID }}
         run: python nodeseek_sign.py
 
-      - name: Keepalive Workflow
-        uses: gautamkrishnar/keepalive-workflow@v2
-        
+    
           # 默认是 50 天检测一次，可以不改
           # use_api: false # 如果你不想产生 Commit 记录，可以尝试设为 true（通过 API 触发），但有时不如 commit 
 
